@@ -172,11 +172,27 @@ export class RUnused extends RuleBase implements IRule {
           if (references.filter(token => token instanceof ORead).length === 0) {
             this.addUnusedMessage(signal, `Not reading signal ${signal.lexerToken}`);
           }
-          if (references.filter(token => token instanceof OWrite).length === 0) {
-            this.addUnusedMessage(signal, `Not writing signal ${signal.lexerToken}`);
-          } else if (settings.rules.warnMultipleDriver) {
+          else if (settings.rules.warnMultipleDriver) {
             this.checkMultipleDriver(signal);
           }
+          if(!signal.lexerToken.text.match(new RegExp("_sig$", 'i'))
+          && (!signal.lexerToken.text.match(new RegExp("_adr$", 'i')))
+          && (!signal.lexerToken.text.match(new RegExp("_address$", 'i')))
+          && (!signal.lexerToken.text.match(new RegExp("_n$", 'i')))
+          && (!signal.lexerToken.text.match(new RegExp("_rw$", 'i')))
+          && (!signal.lexerToken.text.match(new RegExp("_div$", 'i')))
+          && (!signal.lexerToken.text.match(new RegExp("_pn$", 'i')))
+          ){
+            this.addUnusedMessage(signal, `Check signal suffix of ${signal.lexerToken}\n
+            address signal: (_addr, _address)\n
+            asynchronous signal: (_a)\n
+            active low signal: (_n)\n
+            r/w signal: (_rw)\n
+            division signal: (_div)\n
+            local signal: _sig (bus_o <= bus_sig)\n
+            pipelined signal: (_pn)\n
+            `);
+          } 
         }
       }
       if (implementsIHasVariables(obj)) {

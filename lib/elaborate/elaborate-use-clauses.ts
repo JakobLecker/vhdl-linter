@@ -94,6 +94,36 @@ export function elaborateUseClauses(file: OFile, projectParser: ProjectParser, v
             }, 'elaborate');
           }
         }
+
+        if (useClause.packageName.referenceToken.text == "std_logic_arith"){
+          if (useClause.rootFile.uri === file.uri) {
+            vhdlLinter.addMessage({
+              range: useClause.range,
+              severity: DiagnosticSeverity.Warning,
+              message: `Do not use ${useClause.library !== undefined ? `${useClause.library.referenceToken.text}.` : ''}${useClause.packageName.referenceToken.text}`
+            }, 'elaborate');
+          }
+        }
+        if (useClause.packageName.referenceToken.text == "std_logic_signed"){
+          if (useClause.rootFile.uri === file.uri) {
+            vhdlLinter.addMessage({
+              range: useClause.range,
+              severity: DiagnosticSeverity.Warning,
+              message: `Do not use ${useClause.library !== undefined ? `${useClause.library.referenceToken.text}.` : ''}${useClause.packageName.referenceToken.text}`
+            }, 'elaborate');
+          }
+        }
+        if (useClause.packageName.referenceToken.text == "std_logic_unsigned"){
+          if (useClause.rootFile.uri === file.uri) {
+            vhdlLinter.addMessage({
+              range: useClause.range,
+              severity: DiagnosticSeverity.Warning,
+              message: `Do not use ${useClause.library !== undefined ? `${useClause.library.referenceToken.text}.` : ''}${useClause.packageName.referenceToken.text}`
+            }, 'elaborate');
+          }
+        }
+
+
         if (!found) {
           if (useClause.rootFile.uri === file.uri) {
             vhdlLinter.addMessage({

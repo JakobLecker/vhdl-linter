@@ -17,7 +17,7 @@ export class RPortDeclaration extends RuleBase implements IRule {
             if (port.lexerToken.text.match(new RegExp(portSettings.outRegex, 'i'))) {
               const code = this.vhdlLinter.addCodeActionCallback((textDocumentUri: string) => {
                 const actions = [];
-                const newName = port.lexerToken.text.replace(new RegExp(portSettings.outRegex, 'i'), 'i_');
+                const newName = port.lexerToken.text.replace(new RegExp(portSettings.outRegex, 'i'), '_i');
                 actions.push(CodeAction.create(
                   `Replace portname with '${newName}`,
                   {
@@ -42,10 +42,17 @@ export class RPortDeclaration extends RuleBase implements IRule {
                 message: `input port '${port.lexerToken}' matches output regex ${portSettings.outRegex}`,
                 code
               });
-            } else if (port.lexerToken.text.match(new RegExp(portSettings.inRegex, 'i')) === null) {
+            } else if (port.lexerToken.text.match(new RegExp(portSettings.inRegex, 'i')) === null 
+              && !(port.lexerToken.text.match(new RegExp("clk", 'i')))
+              && !(port.lexerToken.text.match(new RegExp("clock", 'i')))
+              && !(port.lexerToken.text.match(new RegExp("rst", 'i')))
+              && !(port.lexerToken.text.match(new RegExp("_n", 'i')))
+              && !(port.lexerToken.text.match(new RegExp("_io", 'i')))
+              && !(port.lexerToken.text.match(new RegExp("_rst_n", 'i')))
+            ){
               const code = this.vhdlLinter.addCodeActionCallback((textDocumentUri: string) => {
                 const actions = [];
-                const newName = port.lexerToken.text.replace(/^(._|_?)/, 'i_');
+                const newName = port.lexerToken.text.replace(/(._|_?)$/, '_i');
                 actions.push(CodeAction.create(
                   `Replace portname with '${newName}`,
                   {
@@ -67,7 +74,7 @@ export class RPortDeclaration extends RuleBase implements IRule {
             if (port.lexerToken.text.match(new RegExp(portSettings.inRegex, 'i'))) {
               const code = this.vhdlLinter.addCodeActionCallback((textDocumentUri: string) => {
                 const actions = [];
-                const newName = port.lexerToken.text.replace(/^i_/, 'o_');
+                const newName = port.lexerToken.text.replace(/_i$/, '_o');
                 actions.push(CodeAction.create(
                   `Replace portname with '${newName}`,
                   {
@@ -95,7 +102,7 @@ export class RPortDeclaration extends RuleBase implements IRule {
             } else if (port.lexerToken.text.match(new RegExp(portSettings.outRegex, 'i')) === null) {
               const code = this.vhdlLinter.addCodeActionCallback((textDocumentUri: string) => {
                 const actions = [];
-                const newName = port.lexerToken.text.replace(/^(._|_?)/, 'o_');
+                const newName = port.lexerToken.text.replace(/(._|_?)$/, '_o');
                 actions.push(CodeAction.create(
                   `Replace portname with '${newName}`,
                   {

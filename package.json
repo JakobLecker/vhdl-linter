@@ -5,7 +5,7 @@
 	"version": "1.5.2",
 	"description": "A typescript based linter for vhdl",
 	"keywords": [],
-	"repository": "https://github.com/vhdl-linter/vhdl-linter",
+	"repository": "hhttps://github.com/JakobLecker/vhdl-linter",
 	"license": "GPL-3.0",
 	"icon": "doc/logo.png",
 	"engines": {
@@ -194,13 +194,13 @@
 				"VhdlLinter.ports.outRegex": {
 					"scope": "window",
 					"type": "string",
-					"default": "^o_",
+					"default": "_o$",
 					"description": "A regular expression to match output ports."
 				},
 				"VhdlLinter.ports.inRegex": {
 					"scope": "window",
 					"type": "string",
-					"default": "^i_",
+					"default": "_i$",
 					"description": "A regular expression to match input ports."
 				},
 				"VhdlLinter.paths.additional": {
