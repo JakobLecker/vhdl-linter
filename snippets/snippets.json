@@ -1,13 +1,13 @@
 {
-	"apro": {
-		"prefix": "apro",
-		"body": "\n${1:identifier} : process( ${2:clock}, ${3:reset} )\nbegin\n  if( ${3:reset} = '1' ) then\n    $0\n  elsif( rising_edge(${2:clock}) ) then\n\n  end if ;\nend process ; -- ${1:identifier}\n",
+	"pro_a": {
+		"prefix": "pro_a",
+		"body": "-----------------------------------------------------------------------------\n--! @brief\n-----------------------------------------------------------------------------\n--! @details\n-----------------------------------------------------------------------------\n${1:ASYNCHRONOUS_PROCESS}_PROC : process( ${2:clk}, ${3:rst} )\nbegin\n  if( ${3:rst} = '1' ) then\n    $0\n  elsif( rising_edge(${2:clk}) ) then\n\n  end if ;\nend process ; -- ${1:identifier}\n",
 		"description": "asynchronous process",
 		"scope": "source.vhdl"
 	},
 	"arch": {
 		"prefix": "arch",
-		"body": "architecture ${1:arch} of ${2:ent} is\n\n\tsignal $0\n\nbegin\n\nend ${1:arch} ; -- ${1:arch}",
+		"body": "-----------------------------------------------------------------------------\n--! @brief\n-----------------------------------------------------------------------------\n--! @details\n-----------------------------------------------------------------------------\narchitecture ${1:arch} of ${2:ent} is\n\n\tsignal $0\n\nbegin\n\nend ${1:arch} ; -- ${1:arch}",
 		"description": "architecture",
 		"scope": "source.vhdl"
 	},
@@ -15,6 +15,18 @@
 		"prefix": "case",
 		"body": "case( ${1:signal_name} ) is\n\n\twhen ${2:IDLE} =>\n\t\t$0\n\n\twhen others =>\n\nend case ;",
 		"description": "case",
+		"scope": "source.vhdl"
+	},
+	"doxygen": {
+		"prefix": "doxygen",
+		"body": "-----------------------------------------------------------------------------\n--! @brief\n-----------------------------------------------------------------------------\n--! @details\n-----------------------------------------------------------------------------",
+		"description": "doxygen",
+		"scope": "source.vhdl"
+	},
+	"dox": {
+		"prefix": "dox",
+		"body": "--! ${1:description}",
+		"description": "doxygen single description",
 		"scope": "source.vhdl"
 	},
 	"else": {
@@ -31,13 +43,49 @@
 	},
 	"ent": {
 		"prefix": "ent",
-		"body": "entity ${1:ent} is\n  port (\n\t${0:clock}\n  ) ;\nend ${1:ent};",
+		"body": "-----------------------------------------------------------------------------\n--! \n-----------------------------------------------------------------------------\nentity ${1:ent} is\n\tport\n\t(\n\t${0}\n\t);\nend ${1:ent};",
 		"description": "entity",
 		"scope": "source.vhdl"
 	},
-	"entarch": {
-		"prefix": "entarch",
-		"body": "entity ${1:ent} is\n  port (\n\t${0:clock}\n  ) ;\nend ${1:ent} ;\n\narchitecture ${2:arch} of ${1:ent} is\n\n\n\nbegin\n\n\n\nend architecture ; -- ${2:arch}",
+	"ent_generic": {
+		"prefix": "ent_generic",
+		"body": "-----------------------------------------------------------------------------\n--! @brief\n-----------------------------------------------------------------------------\n--! @details\n-----------------------------------------------------------------------------\nentity ${1:ent} is\n\tgeneric\n\t(\n\t\t${2:N} : ${3:integer} := ${4:8}\n\t);\n\tport\n\t(\n\t\t${5:clk} : ${6:in} ${7:std_logic}\n\t);\nend ${1:ent};",
+		"description": "entity + generics",
+		"scope": "source.vhdl"
+	},
+	"generic": {
+		"prefix": "generic",
+		"body": "${1:N} : ${2:integer} := ${3:8}",
+		"description": "generic",
+		"scope": "source.vhdl"
+	},
+	"port": {
+		"prefix": "port",
+		"body": "${1:clk} : ${2:in} ${3:std_logic}",
+		"description": "port signal",
+		"scope": "source.vhdl"
+	},
+	"signal": {
+		"prefix": "signal",
+		"body": "signal ${1:signalname} : ${3:std_logic};",
+		"description": "signal",
+		"scope": "source.vhdl"
+	},
+	"variable": {
+		"prefix": "variable",
+		"body": "variable ${1:varname_var} : ${3:std_logic} := '0';",
+		"description": "variable (only in processes & subprograms!)",
+		"scope": "source.vhdl"
+	},
+	"constant": {
+		"prefix": "constant",
+		"body": "constant ${1:N_CONST} : ${3:integer} := 0;",
+		"description": "constant",
+		"scope": "source.vhdl"
+	},
+	"ent_arch": {
+		"prefix": "ent_arch",
+		"body": "entity ${1:ent} is\n\tport\t(\n\t${0:clk}\n\t) ;\nend ${1:ent} ;\n\narchitecture ${2:arch} of ${1:ent} is\n\n\n\nbegin\n\n\n\nend architecture ; -- ${2:arch}",
 		"description": "entity architecture",
 		"scope": "source.vhdl"
 	},
@@ -71,12 +119,6 @@
 		"description": "process",
 		"scope": "source.vhdl"
 	},
-	"proc": {
-		"prefix": "proc",
-		"body": "procedure $1 (\n\t${2:parameter}\n)\nis\nbegin\n\t${3}\nend procedure;",
-		"description": "procedure",
-		"scope": "source.vhdl"
-	},
 	"s": {
 		"prefix": "s",
 		"body": "signed(${1:x} downto ${2:0}) ;$0",
@@ -89,10 +131,22 @@
 		"description": "signed range",
 		"scope": "source.vhdl"
 	},
-	"spro": {
+	"pro_s": {
 		"prefix": "spro",
-		"body": "${1:identifier} : process( ${2:clock} )\nbegin\n\tif( rising_edge(${2:clock}) ) then\n\t\t$0\n\tend if ;\nend process ; -- ${1:identifier}",
+		"body": "${1:SYNCHRONOUS_PROCESS}_PROC : process( ${2:clk} )\nbegin\n\tif( rising_edge(${2:clk}) ) then\n\t\t$0\n\tend if;\nend process ; -- ${1:identifier}",
 		"description": "synchronous process",
+		"scope": "source.vhdl"
+	},
+	"pro_s_rstn": {
+		"prefix": "spro_rstn",
+		"body": "${1:SYNCHRONOUS_PROCESS}_PROC : process( ${2:clk} )\nbegin\n\tif( rising_edge(${2:clk}) ) then\n\t\tif ${3:rst_n} = '0' then\n\t\t\t$0\n\t\telse\n\t\t\n\t\tend if;\n\tend if;\nend process ; -- ${1:identifier}",
+		"description": "synchronous process with low active rst",
+		"scope": "source.vhdl"
+	},
+	"pro_s_rst": {
+		"prefix": "spro_rst",
+		"body": "${1:SYNCHRONOUS_PROCESS}_PROC : process( ${2:clk} )\nbegin\n\tif( rising_edge(${2:clk}) ) then\n\t\tif ${3:rst} = '1' then\n\t\t\t$0\n\t\telse\n\t\t\n\t\tend if;\n\tend if;\nend process ; -- ${1:identifier}",
+		"description": "synchronous process with high active rst",
 		"scope": "source.vhdl"
 	},
 	"slv": {
@@ -121,7 +175,7 @@
 	},
 	"vhdl": {
 		"prefix": "vhdl",
-		"body": "library ieee ;\n\tuse ieee.std_logic_1164.all ;\n\tuse ieee.numeric_std.all ;\n\nentity ${1:ent} is\n  port (\n\t${0:clock}\n  ) ;\nend ${1:ent} ; \n\narchitecture ${2:arch} of ${1:ent} is\n\nbegin\n\nend architecture ;",
+		"body": "library ieee ;\n\tuse ieee.std_logic_1164.all ;\n\tuse ieee.numeric_std.all ;\n\nentity ${1:ent} is\n  port (\n\t${0:clk}\n  ) ;\nend ${1:ent} ; \n\narchitecture ${2:arch} of ${1:ent} is\n\nbegin\n\nend architecture ;",
 		"description": "vhdl template",
 		"scope": "source.vhdl"
 	},
@@ -130,5 +184,30 @@
 		"body": "${1:identifier} : while ${2:expression} loop\n\t$0\nend loop ; -- ${1:identifier}",
 		"description": "while",
 		"scope": "source.vhdl"
+	},
+	"lib": {
+		"prefix": "lib",
+		"body": "-----------------------------------------------------------------------------\n--! @file ${1:filename}.vhd\n--! @brief ${1:filename}\n-----------------------------------------------------------------------------\nlibrary IEEE;\nuse IEEE.STD_LOGIC_1164.all;",
+		"description": "std library",
+		"scope": "source.vhdl"
+	},
+	"lib_numeric": {
+		"prefix": "lib_numeric",
+		"body": "use IEEE.NUMERIC_STD.all;",
+		"description": "std numeric",
+		"scope": "source.vhdl"
+	},
+	"type": {
+		"prefix": "type",
+		"body": "type ${1:typename_t} is ${2:array (0 to 15) of std_logic_vector(31 downto 0)};",
+		"description": "type",
+		"scope": "source.vhdl"
+	},
+	"type_signal": {
+		"prefix": "type_signal",
+		"body": "type ${1:typename}_t is ${2:array (0 to 15) of std_logic_vector(31 downto 0)};\nsignal ${3:signalname} : ${1:typename}_t;",
+		"description": "type + signal",
+		"scope": "source.vhdl"
 	}
+
 }
