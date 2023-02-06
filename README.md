@@ -10,8 +10,4 @@ Introducing the open-source VHDL Linter, written in TypeScript and thoroughly un
 ## Code snippets (edit snippets/snippets.json)
 
 
-
-## Known issues
-
-
 ![rename](./doc/rename.gif)

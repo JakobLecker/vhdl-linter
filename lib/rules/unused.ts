@@ -202,11 +202,16 @@ export class RUnused extends RuleBase implements IRule {
           if (references.filter(token => token instanceof ORead).length === 0) {
             this.addUnusedMessage(variable, `Not reading variable ${variable.lexerToken}`);
           }
+          if(!variable.lexerToken.text.match(new RegExp("_v$", 'i'))
+          ){
+            this.addUnusedMessage(variable, `Check variable suffix of ${variable.lexerToken}`);
+          } 
           if (references.filter(token => token instanceof OWrite).length === 0) {
             // Assume protected type has side-effect and does not net writing to.
             const type = variable.typeReference[0]?.definitions?.[0];
             if ((type instanceof OType && (type.protected || type.protectedBody)) === false) {
-              this.addUnusedMessage(variable, `Not writing variable '${variable.lexerToken}'`);
+              this.addUnusedMessage(variable, `Not writing variable '${variable.lexerToken}  
+              (should be ${variable.lexerToken}_v)`);
             }
           }
         }
@@ -218,6 +223,12 @@ export class RUnused extends RuleBase implements IRule {
           if (references.filter(token => token instanceof ORead).length === 0) {
             this.addUnusedMessage(constant, `Not reading constant ${constant.lexerToken}`);
           }
+          if(!constant.lexerToken.text.match(new RegExp("_const$", 'i'))
+          ){
+            this.addUnusedMessage(constant, `Check constant suffix of ${constant.lexerToken}
+            (should be ${constant.lexerToken}_const)`);
+          } 
+    
         }
       }
       if (implementsIHasSubprograms(obj)) {
@@ -231,6 +242,7 @@ export class RUnused extends RuleBase implements IRule {
           if (references.length === 0) {
             this.addUnusedMessage(subprogram, `Not using subprogram ${subprogram.lexerToken}`);
           }
+
         }
       }
     }
