@@ -106,7 +106,7 @@ function sysVerilogTemplate(entity: OEntity) {
     text += `;\n`;
     return text;
 }
-function signalsTemplate(entity: OEntity) {
+function signalsTemplate(entity: OEntity){
     let text = '';
     if (entity.ports.length > 0) {
         const longest = longestinArray(entity.ports);

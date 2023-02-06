@@ -13,7 +13,7 @@
 	},
 	"case": {
 		"prefix": "case",
-		"body": "case( ${1:signal_name} ) is\n\n\twhen ${2:IDLE} =>\n\t\t$0\n\n\twhen others =>\n\nend case ;",
+		"body": "case(${1:signal_name}) is\n\n\twhen ${2:IDLE} =>\n\t\t$0\n\n\twhen others =>\n\nend case ;",
 		"description": "case",
 		"scope": "source.vhdl"
 	},
@@ -193,7 +193,7 @@
 	},
 	"lib_numeric": {
 		"prefix": "lib_numeric",
-		"body": "use IEEE.NUMERIC_STD.all;",
+		"body": "use ieee.numeric_std.all;",
 		"description": "std numeric",
 		"scope": "source.vhdl"
 	},
